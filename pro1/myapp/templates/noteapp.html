@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>
+            note app
+        </title>
+        <body>
+            
+            <h1>My Notes</h1>
+            
+            {% for i in note %}
+
+                    <h2>{{ i.title }}</h2>
+                        <p>{{ i.description }}<p>
+                            <small>{{ i.create_at }}</small>
+
+                     <hr>
+
+            {% endfor %}
+
+
+
+        </body>
+    </head>   
+</html>
+
