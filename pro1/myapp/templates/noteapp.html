@@ -1,25 +1,60 @@
-<html>
-    <head>
-        <title>
-            note app
-        </title>
-        <body>
-            
-            <h1>My Notes</h1>
-            
-            {% for i in note %}
+{% extends 'base.html' %}
 
-                    <h2>{{ i.title }}</h2>
-                        <p>{{ i.description }}<p>
-                            <small>{{ i.create_at }}</small>
+{% block content %}
 
-                     <hr>
+<div class="card shadow p-4">
 
-            {% endfor %}
+    <h1 class="text-center mb-4">My Notes App</h1>
 
+    <form method="POST">
 
+        {% csrf_token %}
 
-        </body>
-    </head>   
-</html>
+        <input
+            type="text"
+            name="title"
+            class="form-control"
+            placeholder="Enter Title"
+        >
 
+        <br>
+
+        <textarea
+            name="description"
+            class="form-control"
+            placeholder="Enter Description"
+        ></textarea>
+
+        <br>
+
+        <button class="btn btn-primary">
+            Add Note
+        </button>
+
+    </form>
+
+</div>
+
+<br>
+
+{% for i in notes %}
+
+<div class="card shadow p-3 mb-3">
+
+    <h3>{{ i.title }}</h3>
+
+    <p>{{ i.description }}</p>
+
+    <small>{{ i.created_at }}</small>
+
+    <br><br>
+
+    <a href="/delete/{{ i.id }}/" class="btn btn-danger">
+        Delete
+    </a>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
