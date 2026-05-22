@@ -20,4 +20,21 @@ def delete(request,id):
       notes=noteapp.objects.get(id=id)
       notes.delete()
       return redirect('/noteapp_view/')
+
+
+
+def update(request,id):
+
+      notes = noteapp.objects.get(id=id)
+
+      if request.method == 'POST':
+            notes.title=request.POST.get('title')
+            notes.description=request.POST.get('description')  
+            notes.save()
+
+            return redirect('/noteapp_view/') 
+
+      return render(request,'update.html',{'notes':notes})
+
+   
       

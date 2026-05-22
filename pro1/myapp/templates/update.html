@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow p-4">
+
+    <h1 class="text-center mb-4">
+        Update Note
+    </h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="text"
+            name="title"
+            value="{{ note.title }}"
+            class="form-control"
+        >
+
+        <br>
+
+        <textarea
+            name="description"
+            class="form-control"
+        >{{ note.description }}</textarea>
+
+        <br>
+
+        <button class="btn btn-success">
+            Update Note
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
