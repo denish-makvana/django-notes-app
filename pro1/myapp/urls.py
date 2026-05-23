@@ -5,7 +5,7 @@ from .import views
 urlpatterns = [
   
     path('noteapp_view/',views.noteapp_view,name='noteapp_view'),
-    path('delete/<int:id>/',views.delete,name='delete'),
-    path('update/<int:id>/',views.update,name='update')
+    path('delete_note/<int:id>/',views.delete_note,name='delete_note'),
+    path('update_note/<int:id>/',views.update_note,name='update_note')
 
 ]

@@ -1,40 +1,66 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import noteapp
+from .forms import NoteForm
 
-# Create your views here.
 
 def noteapp_view(request):
-        if request.method == 'POST':
-            title=request.POST.get('title')
-            description=request.POST.get('description')
-            noteapp.objects.create(title=title,description=description)
+
+    if request.method == 'POST':
+
+        form = NoteForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
 
             return redirect('/noteapp_view/')
-        
-        notes = noteapp.objects.all()
-        return render(request,"noteapp.html",{'notes':notes})
+
+    else:
+
+        form = NoteForm()
+
+        note = noteapp.objects.all()
+
+        query = request.GET.get('query')
+
+        if query:
+             note = noteapp.objects.filter(
+                 title__icontains=query
+                   )
+        return render(request,
+    'noteapp.html', {
+                  'note': note,
+                  'form': form
+            })
 
 
-def delete(request,id):
-      
-      notes=noteapp.objects.get(id=id)
-      notes.delete()
-      return redirect('/noteapp_view/')
+def delete_note(request, id):
+
+    note = noteapp.objects.get(id=id)
+
+    note.delete()
+
+    return redirect('/noteapp_view/')
 
 
+def update_note(request, id):
 
-def update(request,id):
+    note = noteapp.objects.get(id=id)
 
-      notes = noteapp.objects.get(id=id)
+    if request.method == 'POST':
 
-      if request.method == 'POST':
-            notes.title=request.POST.get('title')
-            notes.description=request.POST.get('description')  
-            notes.save()
+        form = NoteForm(request.POST, instance=note)
 
-            return redirect('/noteapp_view/') 
+        if form.is_valid():
 
-      return render(request,'update.html',{'notes':notes})
+            form.save()
 
-   
-      
+            return redirect('/noteapp_view/')
+
+    else:
+
+        form = NoteForm(instance=note)
+
+    return render(request, 'update.html', {
+        'form': form
+    })
