@@ -4,10 +4,21 @@
 
 <div class="card shadow p-4">
 
+    
+
     <h1 class="text-center mb-4">
         My Notes App
     </h1>
 
+    <a href="/logout_view/" class="btn btn-danger mb-3">Logout</a>
+        
+        <br>
+
+     <form method="GET">
+            <input type="text" name="query" placeholder="Search Notes">
+            <button type="submit">Search</button>
+        </form>
+<br>
     <form method="POST">
 
         {% csrf_token %}
@@ -30,10 +41,7 @@
 
         </form>
          <br>
-        <form method="GET">
-            <input type="text" name="query" placeholder="Search Notes">
-            <button type="submit">Search</button>
-        </form>
+       
 
    
 

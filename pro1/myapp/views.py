@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+from django.shortcuts import redirect
 from .models import noteapp
 from .forms import NoteForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def noteapp_view(request):
 
     if request.method == 'POST':
@@ -19,7 +23,7 @@ def noteapp_view(request):
 
         form = NoteForm()
 
-        note = noteapp.objects.all()
+        note = noteapp.objects.filter(user=request.user)
 
         query = request.GET.get('query')
 
@@ -52,6 +56,9 @@ def update_note(request, id):
         form = NoteForm(request.POST, instance=note)
 
         if form.is_valid():
+            note=form.save(commit=False)
+            note.user = request.user
+            note.save()
 
             form.save()
 
@@ -64,3 +71,48 @@ def update_note(request, id):
     return render(request, 'update.html', {
         'form': form
     })
+
+
+def register(request):
+
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save()
+
+            login(request, user)
+
+            return redirect('/noteapp_view/')
+
+    return render(request, 'register.html', {
+        'form': form
+    })
+
+
+def login_view(request):
+
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+        if user is not None:
+            login(request, user)
+            return redirect('/noteapp_view/')
+    return render(request, 'login_view.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login_view/')
+
