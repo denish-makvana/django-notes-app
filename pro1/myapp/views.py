@@ -89,7 +89,7 @@ def register(request):
 
             return redirect('/noteapp_view/')
 
-    return render(request, 'register.html', {
+    return render(request, 'register.html', {   
         'form': form
     })
 
