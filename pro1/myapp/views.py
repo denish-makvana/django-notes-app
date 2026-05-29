@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from .models import noteapp
 from .forms import NoteForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404 
 
 @login_required
 def noteapp_view(request):
@@ -15,7 +16,9 @@ def noteapp_view(request):
 
         if form.is_valid():
 
-            form.save()
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
 
             return redirect('/noteapp_view/')
 
@@ -39,11 +42,8 @@ def noteapp_view(request):
 
 
 def delete_note(request, id):
-
-    note = noteapp.objects.get(id=id)
-
+    note = get_object_or_404(noteapp,id=id)
     note.delete()
-
     return redirect('/noteapp_view/')
 
 

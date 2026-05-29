@@ -2,72 +2,81 @@
 
 {% block content %}
 
-<div class="card shadow p-4">
+<div class="card shadow p-4 mb-4">
 
-    
+    <h2 class="text-center mb-4">
+        Add New Note
+    </h2>
 
-    <h1 class="text-center mb-4">
-        My Notes App
-    </h1>
-
-    <a href="/logout_view/" class="btn btn-danger mb-3">Logout</a>
-        
-        <br>
-
-     <form method="GET">
-            <input type="text" name="query" placeholder="Search Notes">
-            <button type="submit">Search</button>
-        </form>
-<br>
     <form method="POST">
 
         {% csrf_token %}
 
-        <div class="mb-3">
-
-            {{ form.title }}
-
-        </div>
-
-        <div class="mb-3">
-
-            {{ form.description }}
-
-        </div>
+        {{ form.as_p }}
 
         <button class="btn btn-primary">
             Add Note
         </button>
 
-        </form>
-         <br>
-       
-
-   
+    </form>
 
 </div>
 
-<br>
+<div class="card shadow p-4 mb-4">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="query"
+            class="form-control"
+            placeholder="Search Notes"
+        >
+
+        <br>
+
+        <button class="btn btn-dark">
+            Search
+        </button>
+
+    </form>
+
+</div>
 
 {% for i in note %}
 
-<div class="card shadow p-3 mb-3">
+<div class="card shadow mb-3">
 
-    <h3>{{ i.title }}</h3>
+    <div class="card-body">
 
-    <p>{{ i.description }}</p>
+        <h3>{{ i.title }}</h3>
 
-    <small>{{ i.create_at }}</small>
+        <p>{{ i.description }}</p>
 
-    <br><br>
+        <small class="text-muted">
+            {{ i.create_at }}
+        </small>
 
-    <a href="/update/{{ i.id }}/" class="btn btn-warning">
-        Edit
-    </a>
-<br>
-    <a href="/delete/{{ i.id }}/" class="btn btn-danger">
-        Delete
-    </a>
+        <p>
+            Category: {{ i.category }}
+        </p>    
+
+        <br><br>
+
+        {% comment %}
+        <a href="/update/{{ i.id }}/" class="btn btn-warning">
+            Edit
+        </a>
+
+        <a href="/delete/{{ i.id }}/" class="btn btn-danger">
+            Delete
+        </a>
+        {% endcomment %}
+
+        <a href="{% url 'delete_note' i.id %}" class="btn btn-warning">Delete</a>
+        <a href="{% url 'update_note' i.id %}" class="btn btn-danger">Edit</a>
+
+    </div>
 
 </div>
 

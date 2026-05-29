@@ -8,7 +8,7 @@ class NoteForm(forms.ModelForm):
 
         model = noteapp
 
-        fields = ['title', 'description']
+        fields = ['title', 'description','category']
 
         widgets = {
 
