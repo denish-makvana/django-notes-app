@@ -1,23 +1,38 @@
-# Django Notes App
+# Notes App
 
-A simple Notes App built using Django.
+A Django Notes App with user authentication and note management features.
 
 ## Features
 
-- Create Notes
-- View Notes
-- Update Notes
-- Delete Notes
-- Bootstrap UI
+- User Registration
+- Login / Logout
+- Private Notes
+- Search Notes
+- Note Categories
+- Note Timestamp
+- Edit & Delete Notes
+- Responsive UI using Bootstrap
 
-## Tech Stack
+## Technologies Used
 
 - Python
 - Django
 - SQLite
-- HTML
 - Bootstrap
 
-## Project Goal
+## Installation Steps
 
-Learn Django CRUD operations and backend development basics.
+1. Clone repository
+
+```bash
+git clone https://github.com/denish-makvana
+
+## Screenshots
+
+### Login Page
+
+![Login](screenshots/login.png)
+
+### Notes App
+
+![Notes](screenshots/notespage.png)
