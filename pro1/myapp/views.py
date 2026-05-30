@@ -6,6 +6,11 @@ from .models import noteapp
 from .forms import NoteForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404 
+from rest_framework.response import Response
+from .serializers import noteappSerializer
+from .models import noteapp
+from rest_framework.decorators import api_view
+
 
 @login_required
 def noteapp_view(request):
@@ -116,3 +121,12 @@ def logout_view(request):
     logout(request)
     return redirect('/login_view/')
 
+
+@api_view(['GET'])
+def notes_api(request):
+
+    notes = noteapp.objects.all()
+
+    serializer = noteappSerializer(notes, many=True)
+    
+    return Response(serializer.data)
